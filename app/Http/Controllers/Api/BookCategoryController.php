@@ -20,8 +20,8 @@ class BookCategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'book_id' => 'required|exists:books,id',
-            'category_id' => 'required|exists:books,id',
+            'book_uuid' => 'required|exists:books,uuid',
+            'category_uuid' => 'required|exists:categories,uuid',
         ]);
 
         if ($validator->fails()) {
@@ -29,8 +29,8 @@ class BookCategoryController extends Controller
         }
 
         $bookCategory = BookCategory::create([
-            'book_id' => $request->book_id,
-            'category_id' => $request->category_id,
+            'book_uuid' => $request->book_uuid,
+            'category_uuid' => $request->category_uuid,
         ]);
         return new dataResource(true, 'Book category created successfully', $bookCategory);
     }

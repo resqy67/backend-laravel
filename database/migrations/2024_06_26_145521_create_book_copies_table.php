@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('book_categories', function (Blueprint $table) {
-            // $table->id();
-            $table->foreignUuid('book_uuid')->constrained('books', 'uuid')->onDelete('cascade');
-            $table->foreignUuid('category_uuid')->constrained('categories', 'uuid')->onDelete('cascade');
+        Schema::create('book_copies', function (Blueprint $table) {
+            $table->uuid('uuid')->primary();
+            $table->foreignUuid('book_id')->constrained('books', 'uuid');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('book_categories');
+        Schema::dropIfExists('book_copies');
     }
 };

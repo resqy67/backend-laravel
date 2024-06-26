@@ -21,6 +21,7 @@ class dataResource extends JsonResource
         $this->status = $status;
         $this->message = $message;
         $this->data = $data;
+        // $this->middleware('auth:sanctum');
     }
 
     public function toArray(Request $request): array

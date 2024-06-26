@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\Validator;
 
 class authController extends Controller
 {
-    //
+    /**
+     * @unauthenticated
+     */
     public function login(Request $request)
     {
-        //
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -35,8 +37,12 @@ class authController extends Controller
         return new authResource(true, 'Login Success', $token);
     }
 
+    /**
+     * @unauthenticated
+     */
     public function register(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
