@@ -20,6 +20,7 @@ class BookCopyController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'book_uuid' => 'required|string',
             'status' => 'required|boolean',
         ]);
 
@@ -28,6 +29,7 @@ class BookCopyController extends Controller
         }
 
         $bookCopy = BookCopy::create([
+            'book_uuid' => $request->book_uuid,
             'status' => $request->status,
         ]);
 

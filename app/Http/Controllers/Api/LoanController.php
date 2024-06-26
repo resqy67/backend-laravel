@@ -21,6 +21,8 @@ class LoanController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'user_uuid' => 'required|string',
+            'book_copy_uuid' => 'required|string',
             'loan_date' => 'required|date',
             'return_date' => 'required|date',
         ]);
@@ -30,6 +32,8 @@ class LoanController extends Controller
         }
 
         $loan = Loan::create([
+            'user_uuid' => $request->user_uuid,
+            'book_copy_uuid' => $request->book_copy_uuid,
             'loan_date' => $request->loan_date,
             'return_date' => $request->return_date,
         ]);

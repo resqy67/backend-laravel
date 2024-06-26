@@ -15,8 +15,11 @@ class Loan extends Model
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
+        'user_uuid',
+        'book_copy_uuid',
         'loan_date',
         'return_date',
+
     ];
 
     public function user()

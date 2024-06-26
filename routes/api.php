@@ -41,21 +41,21 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::middleware('auth:sanctum')->group(function () {
     // route book
     Route::get('books', [BookController::class, 'index']);
-    Route::post('books', [BookController::class, 'store']);
+    Route::post('book/store', [BookController::class, 'store']);
 
     // route category
     Route::get('categories', [CategoryController::class, 'index']);
-    Route::post('categories', [CategoryController::class, 'store']);
+    Route::post('category/store', [CategoryController::class, 'store']);
 
     // route book category
     Route::get('book-categories', [BookCategoryController::class, 'index']);
-    Route::post('book-categories', [BookCategoryController::class, 'store']);
+    Route::post('book-category/store', [BookCategoryController::class, 'store']);
 
     // route book copy
     Route::get('book-copies', [BookCopyController::class, 'index']);
-    Route::post('book-copies', [BookCopyController::class, 'store']);
+    Route::post('book-copy/store', [BookCopyController::class, 'store']);
 
     // route loan
     Route::get('loans', [LoanController::class, 'index']);
-    Route::post('loans', [LoanController::class, 'store']);
+    Route::post('loan/store', [LoanController::class, 'store']);
 });

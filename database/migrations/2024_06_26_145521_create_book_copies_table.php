@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('book_copies', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
-            $table->foreignUuid('book_id')->constrained('books', 'uuid');
+            $table->foreignUuid('book_uuid')->constrained('books', 'uuid')->onDelete('cascade');
             $table->boolean('status')->default(false);
             $table->timestamps();
         });

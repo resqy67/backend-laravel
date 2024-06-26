@@ -14,6 +14,7 @@ class BookCopy extends Model
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
+        'book_uuid',
         'status',
     ];
 
