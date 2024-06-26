@@ -18,4 +18,14 @@ class Loan extends Model
         'loan_date',
         'return_date',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_uuid', 'uuid');
+    }
+
+    public function bookCopy()
+    {
+        return $this->belongsTo(BookCopy::class, 'book_copy_uuid', 'uuid');
+    }
 }

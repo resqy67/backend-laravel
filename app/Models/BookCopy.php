@@ -16,4 +16,14 @@ class BookCopy extends Model
     protected $fillable = [
         'status',
     ];
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class, 'book_uuid ', 'uuid');
+    }
+
+    public function loan()
+    {
+        return $this->hasOne(Loan::class, 'book_copy_uuid', 'uuid');
+    }
 }

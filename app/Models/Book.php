@@ -36,6 +36,16 @@ class Book extends Model
         'filePdf',
     ];
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function bookCopy()
+    {
+        return $this->hasMany(BookCopy::class, 'book_uuid', 'uuid');
+    }
+
     protected function image(): Attribute
     {
         return Attribute::make(
