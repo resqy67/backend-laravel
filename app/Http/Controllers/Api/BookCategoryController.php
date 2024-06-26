@@ -10,12 +10,24 @@ use Illuminate\Support\Facades\Validator;
 
 class BookCategoryController extends Controller
 {
-    //
+    /**
+     * Book Category
+     *
+     * Get all book categories
+     *
+     */
     public function index()
     {
         $bookCategories = BookCategory::latest()->get();
         return new dataResource(true, 'List of all book categories ', $bookCategories);
     }
+
+    /**
+     * Store
+     *
+     * Store new book category
+     *
+     */
 
     public function store(Request $request)
     {

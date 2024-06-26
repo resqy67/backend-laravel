@@ -11,11 +11,6 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\LoanController;
 
 
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware(Authenticate::using('sanctum'));
-
 Route::get('/', function () {
     return response()->json([
         'status' => 200,
@@ -30,13 +25,9 @@ Route::get('/error', function () {
     ]);
 })->name('login');
 
+Route::get('/user', [AuthController::class, 'getUser'])->middleware(Authenticate::using('sanctum'));
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-
-// Route::group(['prefix' => 'auth'], function () {
-//     Route::post('register', [AuthController::class, 'register'])->name('auth.register');
-//     Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-// });
 
 Route::middleware('auth:sanctum')->group(function () {
     // route book
