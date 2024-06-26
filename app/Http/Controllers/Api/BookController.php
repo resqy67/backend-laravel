@@ -11,11 +11,24 @@ use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
+    /**
+     * Book
+     *
+     * Get all books
+     *
+     */
     public function index()
     {
         $books = Book::latest()->paginate(5);
         return new dataResource('success', 'Data retrieved successfully', $books);
     }
+
+    /**
+     * Store
+     *
+     * Store new book
+     *
+     */
 
     public function store(Request $request)
     {

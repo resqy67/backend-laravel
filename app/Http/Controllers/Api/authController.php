@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Validator;
 class authController extends Controller
 {
     /**
+     *  Login user
+     *
+     * Logging in user
+     *
      * @unauthenticated
      */
     public function login(Request $request)
@@ -38,6 +42,10 @@ class authController extends Controller
     }
 
     /**
+     *  Register user
+     *
+     * Registering new user
+     *
      * @unauthenticated
      */
     public function register(Request $request)

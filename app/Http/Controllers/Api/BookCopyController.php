@@ -8,15 +8,31 @@ use App\Models\BookCopy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * @group Book Copy
+ *
+ * APIs for managing book copies
+ */
 class BookCopyController extends Controller
 {
-    //
+    /**
+     * Book Copy
+     *
+     * Get all book copies
+     *
+     */
     public function index()
     {
         $bookCopies = BookCopy::latest()->paginate(5);
         return new dataResource('success', 'Data retrieved successfully', $bookCopies);
     }
 
+    /**
+     * Store
+     *
+     * Store new book copy
+     *
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

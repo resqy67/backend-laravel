@@ -8,16 +8,32 @@ use App\Models\Loan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+
+/**
+ * @group Loan
+ *
+ * APIs for managing loans
+ */
 class LoanController extends Controller
 {
-    //
-
+    /**
+     * Loan
+     *
+     * Get all loans
+     *
+     */
     public function index()
     {
         $loans = Loan::latest()->paginate(5);
         return new dataResource('success', 'Data retrieved successfully', $loans);
     }
 
+    /**
+     * Store
+     *
+     * Store new loan
+     *
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
