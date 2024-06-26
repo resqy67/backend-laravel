@@ -31,7 +31,7 @@ class authController extends Controller
         }
 
         if (!auth()->attempt($request->only('email', 'password'))) {
-            return new authResource(false, 'Unauthorized', null);
+            return response()->json(new authResource(false, 'Unauthorized', null), 401);
         }
 
         $datauser = User::where('email', $request->email)->first();
