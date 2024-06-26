@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('isbn');
             $table->integer('year');
             $table->integer('pages');
-            $table->string('coverImage');
+            $table->string('image');
             $table->string('filePdf');
             $table->timestamps();
         });

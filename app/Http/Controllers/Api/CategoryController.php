@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\dataResource;
 use Illuminate\Http\Request;
-
-use App\Models\Categories;
-use App\Http\Resources\CategoriesResource;
-
+use App\Models\Category;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -15,23 +13,21 @@ class CategoryController extends Controller
     //
     public function index()
     {
-        $categories = Categories::latest()->get();
-        return new CategoriesResource(200, 'List of all categories', $categories);
+        $categories = Category::latest()->get();
+        return new dataResource(true, 'List of all categories ', $categories);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'CategoryName' => 'required',
+            'name' => 'required|unique:categories',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
+            return new dataResource(false, $validator->errors(), null);
         }
 
-        $category = Categories::create([
-            'CategoryName' => $request->CategoryName,
-        ]);
-        return new CategoriesResource(true, 'Category created successfully', $category);
+        $category = Category::create($request->all());
+        return new dataResource(true, 'Category created successfully', $category);
     }
 }

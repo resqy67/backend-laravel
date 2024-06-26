@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Book extends Model
 {
@@ -18,25 +19,21 @@ class Book extends Model
         'isbn',
         'year',
         'pages',
-        'coverImage',
+        'image',
         'filePdf',
     ];
 
-    protected function coverImage(): Attribute
+    protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn ($coverImage) => url('storage/books/images/' . $coverImage),
+            get: fn ($image) => url('/storage/books/images/' . $image),
         );
     }
 
     protected function filePdf(): Attribute
     {
         return Attribute::make(
-            get: fn ($filePdf) => url('storage/books/pdfs/' . $filePdf),
+            get: fn ($filePdf) => url('/storage/books/pdfs/' . $filePdf),
         );
-    }
-    public function categories()
-    {
-        return $this->belongsToMany(Categories::class, 'book_categories');
     }
 }

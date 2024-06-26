@@ -3,22 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\dataResource;
+use App\Models\BookCategory;
 use Illuminate\Http\Request;
-
-
-use App\Models\BookCategories;
-use App\Http\Resources\BookCategoriesResource;
-
 use Illuminate\Support\Facades\Validator;
 
-
-class BookCategoriesController extends Controller
+class BookCategoryController extends Controller
 {
     //
     public function index()
     {
-        $bookCategories = BookCategories::latest()->get();
-        return new BookCategoriesResource(200, 'List of all book categories', $bookCategories);
+        $bookCategories = BookCategory::latest()->get();
+        return new dataResource(true, 'List of all book categories ', $bookCategories);
     }
 
     public function store(Request $request)
@@ -32,10 +28,10 @@ class BookCategoriesController extends Controller
             return response()->json(['error' => $validator->errors()], 422);
         }
 
-        $bookCategory = BookCategories::create([
+        $bookCategory = BookCategory::create([
             'book_id' => $request->book_id,
             'category_id' => $request->category_id,
         ]);
-        return new BookCategoriesResource(true, 'Book category created successfully', $bookCategory);
+        return new dataResource(true, 'Book category created successfully', $bookCategory);
     }
 }
