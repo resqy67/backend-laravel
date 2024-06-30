@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\dataResource;
+use App\Http\Resources\DataResource;
 use App\Models\Loan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +25,7 @@ class LoanController extends Controller
     public function index()
     {
         $loans = Loan::latest()->paginate(5);
-        return new dataResource('success', 'Data retrieved successfully', $loans);
+        return new DataResource('success', 'Data retrieved successfully', $loans);
     }
 
     /**
@@ -44,7 +44,7 @@ class LoanController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new dataResource('error', $validator->errors(), null);
+            return new DataResource('error', $validator->errors(), null);
         }
 
         $loan = Loan::create([
@@ -54,6 +54,6 @@ class LoanController extends Controller
             'return_date' => $request->return_date,
         ]);
 
-        return new dataResource('success', 'Data stored successfully', $loan);
+        return new DataResource('success', 'Data stored successfully', $loan);
     }
 }

@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Http\Resources\AuthResource;
 use Illuminate\Support\Facades\Validator;
 
-class uthController extends Controller
+class AuthController extends Controller
 {
     /**
      *  Login user
@@ -27,18 +27,18 @@ class uthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new authResource(false, $validator->errors(), null);
+            return new AuthResource(false, $validator->errors(), null);
         }
 
         if (!auth()->attempt($request->only('email', 'password'))) {
-            return response()->json(new authResource(false, 'Unauthorized', null), 401);
+            return response()->json(new AuthResource(false, 'Unauthorized', null), 401);
         }
 
         $datauser = User::where('email', $request->email)->first();
         $token = [
             'token' => $datauser->createToken('token')->plainTextToken,
         ];
-        return new authResource(true, 'Login Success', $token);
+        return new AuthResource(true, 'Login Success', $token);
     }
 
     /**
@@ -81,7 +81,7 @@ class uthController extends Controller
             'avatar' => $avatar->hashName(),
         ]);
 
-        return new authResource(true, 'Register Success', null);
+        return new AuthResource(true, 'Register Success', null);
     }
 
     /**
@@ -93,6 +93,6 @@ class uthController extends Controller
     public function getUser(Request $request)
     {
         $user = $request->user();
-        return new authResource(true, 'Data retrieved successfully', $user);
+        return new AuthResource(true, 'Data retrieved successfully', $user);
     }
 }

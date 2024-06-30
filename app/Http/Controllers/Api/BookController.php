@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Book;
-use App\Http\Resources\dataResource;
+use App\Http\Resources\DataResource;
 use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
@@ -20,7 +20,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::latest()->paginate(5);
-        return new dataResource('success', 'Data retrieved successfully', $books);
+        return new DataResource('success', 'Data retrieved successfully', $books);
     }
 
     /**
@@ -45,7 +45,7 @@ class BookController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new dataResource('error', $validator->errors(), null);
+            return new DataResource('error', $validator->errors(), null);
         }
 
         $image = $request->file('image');
@@ -66,6 +66,6 @@ class BookController extends Controller
             'filePdf' => $filePdf->hashName(),
         ]);
 
-        return new dataResource('success', 'Data stored successfully', $book);
+        return new DataResource('success', 'Data stored successfully', $book);
     }
 }

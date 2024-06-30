@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\dataResource;
+use App\Http\Resources\DataResource;
 use App\Models\BookCopy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +24,7 @@ class BookCopyController extends Controller
     public function index()
     {
         $bookCopies = BookCopy::latest()->paginate(5);
-        return new dataResource('success', 'Data retrieved successfully', $bookCopies);
+        return new DataResource('success', 'Data retrieved successfully', $bookCopies);
     }
 
     /**
@@ -41,7 +41,7 @@ class BookCopyController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new dataResource('error', $validator->errors(), null);
+            return new DataResource('error', $validator->errors(), null);
         }
 
         $bookCopy = BookCopy::create([
@@ -49,7 +49,7 @@ class BookCopyController extends Controller
             'status' => $request->status,
         ]);
 
-        return new dataResource('success', 'Data stored successfully', $bookCopy);
+        return new DataResource('success', 'Data stored successfully', $bookCopy);
 
         // return new dataResource('success', 'Data stored successfully', $bookCopy);
     }

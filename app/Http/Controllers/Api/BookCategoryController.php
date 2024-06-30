@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\dataResource;
+use App\Http\Resources\DataResource;
 use App\Models\BookCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +19,7 @@ class BookCategoryController extends Controller
     public function index()
     {
         $bookCategories = BookCategory::latest()->get();
-        return new dataResource(true, 'List of all book categories ', $bookCategories);
+        return new DataResource(true, 'List of all book categories ', $bookCategories);
     }
 
     /**
@@ -44,6 +44,6 @@ class BookCategoryController extends Controller
             'book_uuid' => $request->book_uuid,
             'category_uuid' => $request->category_uuid,
         ]);
-        return new dataResource(true, 'Book category created successfully', $bookCategory);
+        return new DataResource(true, 'Book category created successfully', $bookCategory);
     }
 }
