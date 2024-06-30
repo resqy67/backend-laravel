@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\User;
-use App\Http\Resources\authResource;
+use App\Http\Resources\AuthResource;
 use Illuminate\Support\Facades\Validator;
 
-class authController extends Controller
+class uthController extends Controller
 {
     /**
      *  Login user
