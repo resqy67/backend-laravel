@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Http\Resources\AuthResource;
+use App\Models\Loan;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller

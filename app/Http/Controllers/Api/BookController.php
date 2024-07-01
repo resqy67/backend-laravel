@@ -68,4 +68,16 @@ class BookController extends Controller
 
         return new DataResource('success', 'Data stored successfully', $book);
     }
+
+    /**
+     * Show
+     *
+     * Show book by uuid
+     *
+     */
+    public function show($uuid)
+    {
+        $book = Book::with('categories')->where('uuid', $uuid)->first();
+        return new DataResource('success', 'Data retrieved successfully', $book);
+    }
 }
