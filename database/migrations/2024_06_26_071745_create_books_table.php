@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('year');
             $table->integer('pages');
             $table->string('image');
-            $table->string('filePdf');
+            $table->string('filepdf');
             $table->timestamps();
         });
     }

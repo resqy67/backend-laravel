@@ -33,7 +33,7 @@ class Book extends Model
         'year',
         'pages',
         'image',
-        'filePdf',
+        'filepdf',
     ];
 
     protected function image(): Attribute
@@ -43,10 +43,10 @@ class Book extends Model
         );
     }
 
-    protected function filePdf(): Attribute
+    protected function filepdf(): Attribute
     {
         return Attribute::make(
-            get: fn ($filePdf) => url('/storage/books/pdfs/' . $filePdf),
+            get: fn ($filepdf) => url('/storage/books/pdfs/' . $filepdf),
         );
     }
 

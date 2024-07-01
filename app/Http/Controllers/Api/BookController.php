@@ -41,7 +41,7 @@ class BookController extends Controller
             'year' => 'required|integer',
             'pages' => 'required|integer',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'filePdf' => 'required|mimes:pdf|max:2048',
+            'filepdf' => 'required|mimes:pdf|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -51,8 +51,8 @@ class BookController extends Controller
         $image = $request->file('image');
         $image->storeAs('public/books/images', $image->hashName());
 
-        $filePdf = $request->file('filePdf');
-        $filePdf->storeAs('public/books/pdfs', $filePdf->hashName());
+        $filepdf = $request->file('filepdf');
+        $filepdf->storeAs('public/books/pdfs', $filepdf->hashName());
 
         $book = Book::create([
             'title' => $request->title,
@@ -63,7 +63,7 @@ class BookController extends Controller
             'year' => $request->year,
             'pages' => $request->pages,
             'image' => $image->hashName(),
-            'filePdf' => $filePdf->hashName(),
+            'filepdf' => $filepdf->hashName(),
         ]);
 
         return new DataResource('success', 'Data stored successfully', $book);
