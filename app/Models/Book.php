@@ -36,12 +36,6 @@ class Book extends Model
         'filePdf',
     ];
 
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class);
-    }
-
-
     protected function image(): Attribute
     {
         return Attribute::make(
@@ -54,5 +48,15 @@ class Book extends Model
         return Attribute::make(
             get: fn ($filePdf) => url('/storage/books/pdfs/' . $filePdf),
         );
+    }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class, 'book_uuid', 'uuid');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'book_categories', 'book_uuid', 'category_uuid');
     }
 }

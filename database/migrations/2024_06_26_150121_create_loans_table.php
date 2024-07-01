@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
-            $table->foreignId('user_id')->constrained('users');
+            $table->unsignedBigInteger('user_id');
+            $table->foreignUuid('book_uuid');
+            // $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreignUuid('book_uuid')->references('uuid')->on('books')->onDelete('cascade');
             $table->date('loan_date');
             $table->date('return_date');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('book_uuid')->references('uuid')->on('books')->onDelete('cascade');
         });
     }
 

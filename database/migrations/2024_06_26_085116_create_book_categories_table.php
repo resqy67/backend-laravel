@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('book_categories', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
-            $table->foreignUuid('book_uuid')->constrained('books', 'uuid')->onDelete('cascade');
-            $table->foreignUuid('category_uuid')->constrained('categories', 'uuid')->onDelete('cascade');
+            $table->foreignUuid('book_uuid');
+            $table->foreignUuid('category_uuid');
             $table->timestamps();
+
+            $table->foreign('book_uuid')->references('uuid')->on('books')->onDelete('cascade');
+            $table->foreign('category_uuid')->references('uuid')->on('categories')->onDelete('cascade');
         });
     }
 

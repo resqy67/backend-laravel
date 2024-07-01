@@ -28,4 +28,14 @@ class BookCategory extends Model
         'book_uuid',
         'category_uuid'
     ];
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class, 'book_uuid', 'uuid');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_uuid', 'uuid');
+    }
 }

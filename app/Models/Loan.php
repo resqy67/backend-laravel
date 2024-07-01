@@ -16,6 +16,7 @@ class Loan extends Model
 
     protected $fillable = [
         'user_id',
+        'book_uuid',
         'loan_date',
         'return_date',
 
@@ -24,5 +25,10 @@ class Loan extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class, 'book_uuid', 'uuid');
     }
 }
