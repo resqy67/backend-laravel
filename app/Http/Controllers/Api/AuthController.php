@@ -22,7 +22,13 @@ class AuthController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
+            /**
+             * @example admin@mail.com
+             */
             'email' => 'required|string|email',
+            /**
+             * @example password
+             */
             'password' => 'required|string',
         ]);
 

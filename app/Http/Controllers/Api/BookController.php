@@ -19,7 +19,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with('categories')->latest()->paginate(5);
+        $books = Book::with('categories')->latest()->simplePaginate(5);
         return new DataResource('success', 'Data retrieved successfully', $books);
     }
 

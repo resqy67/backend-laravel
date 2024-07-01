@@ -23,7 +23,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::get();
         return new DataResource(true, 'List of all categories ', $categories);
     }
 
