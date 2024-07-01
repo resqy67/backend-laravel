@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookCategoryController;
 use App\Http\Controllers\Api\BookController;
-use App\Http\Controllers\Api\BookCopyController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\LoanController;
 
@@ -42,9 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('book-categories', [BookCategoryController::class, 'index']);
     Route::post('book-category/store', [BookCategoryController::class, 'store']);
 
-    // route book copy
-    Route::get('book-copies', [BookCopyController::class, 'index']);
-    Route::post('book-copy/store', [BookCopyController::class, 'store']);
 
     // route loan
     Route::get('loans', [LoanController::class, 'index']);

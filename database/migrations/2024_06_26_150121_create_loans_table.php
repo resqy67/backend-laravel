@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
-            $table->foreignUuid('book_copy_uuid')->constrained('book_copies', 'uuid');
             $table->foreignId('user_id')->constrained('users');
             $table->date('loan_date');
             $table->date('return_date');

@@ -15,8 +15,7 @@ class Loan extends Model
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
-        'user_uuid',
-        'book_copy_uuid',
+        'user_id',
         'loan_date',
         'return_date',
 
@@ -24,11 +23,6 @@ class Loan extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_uuid', 'uuid');
-    }
-
-    public function bookCopy()
-    {
-        return $this->belongsTo(BookCopy::class, 'book_copy_uuid', 'uuid');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
