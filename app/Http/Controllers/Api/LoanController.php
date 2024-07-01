@@ -24,7 +24,7 @@ class LoanController extends Controller
      */
     public function index()
     {
-        $loans = Loan::with('user', 'book')->latest()->paginate(5);
+        $loans = Loan::with('user', 'book')->latest()->paginate(20);
         return new DataResource('success', 'Data retrieved successfully', $loans);
     }
 
