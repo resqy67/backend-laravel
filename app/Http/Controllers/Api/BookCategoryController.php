@@ -18,7 +18,9 @@ class BookCategoryController extends Controller
      */
     public function index()
     {
-        $bookCategories = BookCategory::latest()->get();
+        // $bookCategories = BookCategory::latest()->get();
+        // $bookCategories = BookCategory::get()->paginate(5);
+        $bookCategories = BookCategory::with('book')->paginate(5);
         return new DataResource(true, 'List of all book categories ', $bookCategories);
     }
 

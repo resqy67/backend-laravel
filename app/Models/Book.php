@@ -50,10 +50,10 @@ class Book extends Model
         );
     }
 
-    public function loans()
-    {
-        return $this->hasMany(Loan::class, 'book_uuid', 'uuid');
-    }
+    // public function loans()
+    // {
+    //     return $this->hasMany(Loan::class, 'book_uuid', 'uuid');
+    // }
 
     public function categories()
     {

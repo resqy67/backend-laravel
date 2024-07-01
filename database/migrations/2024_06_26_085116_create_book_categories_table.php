@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('uuid')->primary();
             $table->foreignUuid('book_uuid');
             $table->foreignUuid('category_uuid');
-            $table->timestamps();
 
             $table->foreign('book_uuid')->references('uuid')->on('books')->onDelete('cascade');
             $table->foreign('category_uuid')->references('uuid')->on('categories')->onDelete('cascade');

@@ -14,6 +14,7 @@ class BookCategory extends Model
     protected $keyType = 'string';
     public $incrementing = false;
     protected $primaryKey = 'uuid';
+    public $timestamps = false;
     // public static function boot()
     // {
     //     parent::boot();
