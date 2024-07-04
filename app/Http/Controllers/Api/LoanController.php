@@ -127,6 +127,11 @@ class LoanController extends Controller
         }
     }
 
+    /**
+     * Check Loan
+     *
+     * Check if book is available or borrowed by user
+     */
     public function checkLoan($book_uuid, $user_id)
     {
         $book = Book::where('uuid', $book_uuid)->first();
