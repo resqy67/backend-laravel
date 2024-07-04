@@ -48,4 +48,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('loan/store', [LoanController::class, 'store']);
     Route::get('loan/user/', [LoanController::class, 'searchByUserId']);
     Route::post('loan/return', [LoanController::class, 'returnBook']);
+    Route::get('loan/check/{book_uuid}/{user_id}', [LoanController::class, 'checkLoan']);
 });

@@ -126,4 +126,18 @@ class LoanController extends Controller
             return new DataResource('error', 'Loan not found', null);
         }
     }
+
+    public function checkLoan($book_uuid, $user_id)
+    {
+        $book = Book::where('uuid', $book_uuid)->first();
+        $loan = Loan::where('book_uuid', $book_uuid)->where('user_id', $user_id)->first();
+
+        if ($book->availability) {
+            return new DataResource('success', 'Book is available', null);
+        } else if ($loan) {
+            return new DataResource('info', 'Book is borrowed by you', null);
+        } else {
+            return new DataResource('error', 'Book is borrowed by another user', null);
+        }
+    }
 }
