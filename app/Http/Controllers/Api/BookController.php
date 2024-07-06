@@ -17,9 +17,11 @@ class BookController extends Controller
      * Get all books
      *
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::with('categories')->latest()->simplePaginate(20);
+        $perPage = $request->input('per_page', 10);
+        $page = $request->input('page', 1);
+        $books = Book::with('categories')->latest()->simplePaginate($perPage, ['*'], 'page', $page);
         return new DataResource('success', 'Data retrieved successfully', $books);
     }
 
