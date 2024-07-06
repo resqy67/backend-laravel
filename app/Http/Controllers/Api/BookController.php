@@ -82,4 +82,50 @@ class BookController extends Controller
         $book = Book::with('categories')->where('uuid', $uuid)->first();
         return new DataResource('success', 'Data retrieved successfully', $book);
     }
+
+    /**
+     * Update
+     *
+     * Update book by uuid
+     *
+     */
+    public function update(Request $request, $uuid)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'author' => 'required|string',
+            'publisher' => 'required|string',
+            'isbn' => 'required|string',
+            'year' => 'required|integer',
+            'pages' => 'required|integer',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'filepdf' => 'required|mimes:pdf|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return new DataResource('error', $validator->errors(), null);
+        }
+
+        $book = Book::where('uuid', $uuid)->first();
+        $image = $request->file('image');
+        $image->storeAs('public/books/images', $image->hashName());
+
+        $filepdf = $request->file('filepdf');
+        $filepdf->storeAs('public/books/pdfs', $filepdf->hashName());
+
+        $book->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'author' => $request->author,
+            'publisher' => $request->publisher,
+            'isbn' => $request->isbn,
+            'year' => $request->year,
+            'pages' => $request->pages,
+            'image' => $image->hashName(),
+            'filepdf' => $filepdf->hashName(),
+        ]);
+
+        return new DataResource('success', 'Data updated successfully', $book);
+    }
 }

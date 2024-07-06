@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('books', [BookController::class, 'index']);
     Route::post('book/store', [BookController::class, 'store']);
     Route::get('book/{uuid}', [BookController::class, 'show']);
+    Route::put('book/update/{uuid}', [BookController::class, 'update']);
 
     // route category
     Route::get('categories', [CategoryController::class, 'index']);
