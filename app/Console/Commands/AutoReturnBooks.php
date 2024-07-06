@@ -28,7 +28,9 @@ class AutoReturnBooks extends Command
      */
     public function handle()
     {
-        $today = now();
+        // buat variabel today yang berisi tanggal dan waktu yang ditambahkan 8 jam dari waktu saat ini
+        $today = now()->addHours(8);
+        // $today = now();
         $loans = Loan::where('return_date', '<=', $today)->get();
 
         $returnCount = 0;
@@ -44,6 +46,6 @@ class AutoReturnBooks extends Command
             }
         }
 
-        $this->info('Books returned successfully. Total books returned: ' . $returnCount);
+        $this->info('Books returned successfully. Total books returned: ' . $returnCount . ' books. ' . $today);
     }
 }
