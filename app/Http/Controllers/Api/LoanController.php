@@ -53,7 +53,7 @@ class LoanController extends Controller
         }
 
         // Set loan_date to current date
-        $loanDate = now();
+        $loanDate = now()->addHours(8);
 
         // Set return_date to 7 days from loan_date
         $returnDate = $loanDate->copy()->addDays(7);
@@ -68,7 +68,7 @@ class LoanController extends Controller
         $book->availability = false;
         $book->save();
 
-        return new DataResource('success', 'Data stored successfully', $loan);
+        return new DataResource('success', "Data stored successfully. loan date is {$loanDate}", $loan);
     }
 
     /**
