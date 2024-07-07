@@ -102,4 +102,37 @@ class AuthController extends Controller
         $user = $request->user();
         return new AuthResource(true, 'Data retrieved successfully', $user);
     }
+
+    /**
+     *  add token fcm
+     *
+     * Add token fcm to user
+     *
+     */
+    /**
+     *  add token fcm
+     *
+     * Add token fcm to user
+     *
+     */
+    public function addTokenFcm(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'token_fcm' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors(),
+            ], 401);
+        }
+
+        User::where('id', $request->user()->id)->update([
+            'token_fcm' => $request->token_fcm,
+        ]);
+
+        return new AuthResource(true, 'Token FCM added successfully', null);
+    }
 }
