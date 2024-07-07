@@ -25,7 +25,7 @@ Route::get('/error', function () {
 })->name('login');
 
 Route::get('/user', [AuthController::class, 'getUser'])->middleware(Authenticate::using('sanctum'));
-Route::post('/update-token-fcm', [AuthController::class, 'addTokenFcm'])->middleware(Authenticate::using('sanctum'));
+Route::post('/user/update-token-fcm', [AuthController::class, 'addTokenFcm'])->middleware(Authenticate::using('sanctum'));
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
