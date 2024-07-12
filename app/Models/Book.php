@@ -40,9 +40,9 @@ class Book extends Model
 
     protected static function boot()
     {
-        static::creating(function ($book) {
-            event(new BookAdded($book));
-        });
+        // static::creating(function ($book) {
+        //     event(new BookAdded($book));
+        // });
     }
 
     protected function image(): Attribute
