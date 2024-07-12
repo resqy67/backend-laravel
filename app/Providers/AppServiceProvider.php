@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\BookAdded;
 use App\Events\BookReturn;
 use App\Events\LoanCreated;
 use App\Listeners\HandleBookReturn;
 use App\Listeners\SaveLoanHistory;
+use App\Listeners\SendBookAddedNotification;
 use App\Models\Loan;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
@@ -36,6 +38,9 @@ class AppServiceProvider extends ServiceProvider
         ],
         LoanCreated::class => [
             SaveLoanHistory::class,
+        ],
+        BookAdded::class => [
+            SendBookAddedNotification::class,
         ],
     ];
 

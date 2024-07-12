@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\BookAdded;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,6 +37,13 @@ class Book extends Model
         'filepdf',
         'loan_count',
     ];
+
+    protected static function boot()
+    {
+        static::creating(function ($book) {
+            event(new BookAdded($book));
+        });
+    }
 
     protected function image(): Attribute
     {
