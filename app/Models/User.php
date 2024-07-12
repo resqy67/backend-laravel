@@ -77,4 +77,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Loan::class, 'loan_uuid', 'uuid');
     }
+
+    public function loanHistories()
+    {
+        return $this->hasMany(LoanHistory::class, 'loan_history_uuid', 'uuid');
+    }
 }

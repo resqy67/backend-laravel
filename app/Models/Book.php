@@ -34,6 +34,7 @@ class Book extends Model
         'pages',
         'image',
         'filepdf',
+        'loan_count',
     ];
 
     protected function image(): Attribute
@@ -50,6 +51,12 @@ class Book extends Model
         );
     }
 
+    public function incrementLoanCount()
+    {
+        $this->loan_count++;
+        $this->save();
+    }
+
     // public function loans()
     // {
     //     return $this->hasMany(Loan::class, 'book_uuid', 'uuid');
@@ -58,5 +65,15 @@ class Book extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'book_categories', 'book_uuid', 'category_uuid');
+    }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class, 'book_uuid', 'uuid');
+    }
+
+    public function loanHistories()
+    {
+        return $this->hasMany(LoanHistory::class, 'book_uuid', 'uuid');
     }
 }

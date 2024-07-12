@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Events\BookReturn;
+use App\Events\LoanCreated;
 use App\Listeners\HandleBookReturn;
+use App\Listeners\SaveLoanHistory;
+use App\Models\Loan;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
@@ -30,6 +33,9 @@ class AppServiceProvider extends ServiceProvider
     protected $listen = [
         BookReturn::class => [
             HandleBookReturn::class,
+        ],
+        LoanCreated::class => [
+            SaveLoanHistory::class,
         ],
     ];
 

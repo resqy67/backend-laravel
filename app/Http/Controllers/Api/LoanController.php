@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Events\LoanCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DataResource;
 use App\Models\Book;
@@ -66,7 +67,10 @@ class LoanController extends Controller
         ]);
 
         $book->availability = false;
+        $book->incrementLoanCount();
         $book->save();
+
+        event(new LoanCreated($loan));
 
         return new DataResource('success', "Data stored successfully. loan date is {$loanDate}", $loan);
     }

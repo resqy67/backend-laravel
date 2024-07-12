@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\BookCategoryController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\LoanController;
-
+use App\Http\Controllers\Api\LoanHistoryController;
 
 Route::get('/', function () {
     return response()->json([
@@ -51,4 +51,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('loan/user/', [LoanController::class, 'searchByUserId']);
     Route::post('loan/return', [LoanController::class, 'returnBook']);
     Route::get('loan/check/{book_uuid}/{user_id}', [LoanController::class, 'checkLoan']);
+
+
+    // route loan history
+    Route::get('loan-histories', [LoanHistoryController::class, 'index']);
+    Route::get('loan-history/user', [LoanHistoryController::class, 'searchByUser']);
 });
