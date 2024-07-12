@@ -35,7 +35,7 @@ class SendBookAddedNotification
                 $message = CloudMessage::withTarget('token', $user->token_fcm)
                     ->withNotification([
                         'title' => 'Book Added',
-                        'body' => 'A new book has been added. Check it out now! 📚' . $event->book->title,
+                        'body' => 'A new book has been added. Check it out now! 📚'
                     ]);
                 $messaging->send($message);
             }
