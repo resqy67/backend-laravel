@@ -38,11 +38,11 @@ class Book extends Model
         'loan_count',
     ];
 
-    protected static function boot()
+    protected static function booted()
     {
-        // static::creating(function ($book) {
-        //     event(new BookAdded($book));
-        // });
+        static::creating(function ($book) {
+            event(new BookAdded($book));
+        });
     }
 
     protected function image(): Attribute

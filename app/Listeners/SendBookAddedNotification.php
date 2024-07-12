@@ -21,14 +21,14 @@ class SendBookAddedNotification
     /**
      * Handle the event.
      */
-    public function handle(BookAdded $event): void
+    public function handle(BookAdded $event)
     {
         //
         $users = User::all();
 
         foreach ($users as $user) {
             if ($user->fcm_token) {
-                $user->notify(new PushNotification('Book Added', 'A new book has been added'));
+                $user->notify(new PushNotification('Book Added', 'A new book has been added. Check it out now! 📚' . $event->book->title));
             }
         }
     }
