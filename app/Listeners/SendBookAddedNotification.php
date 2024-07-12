@@ -30,7 +30,7 @@ class SendBookAddedNotification
         $users = User::all();
 
         foreach ($users as $user) {
-            if ($user->fcm_token) {
+            if ($user->token_fcm) {
                 // $user->notify(new PushNotification('Book Added', 'A new book has been added. Check it out now! 📚' . $event->book->title));
                 $message = CloudMessage::withTarget('token', $user->token_fcm)
                     ->withNotification([
