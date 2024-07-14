@@ -153,9 +153,11 @@ class AuthController extends Controller
      *
      * Get all users
      */
-    public function getUsers()
+    public function getUsers(Request $request)
     {
-        $users = User::all();
+        $perPage = $request->input('per_page', 10);
+        $page = $request->input('page', 1);
+        $users = User::latest()->simplePaginate($perPage, ['*'], 'page', $page);
         return new AuthResource(true, 'Data retrieved successfully', $users);
     }
 }
