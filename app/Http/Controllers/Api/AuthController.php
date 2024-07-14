@@ -135,4 +135,27 @@ class AuthController extends Controller
 
         return new AuthResource(true, 'Token FCM added successfully', null);
     }
+
+    /**
+     *  logout user
+     *
+     * Logging out user
+     *
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+        return new AuthResource(true, 'Logout Success', null);
+    }
+
+    /**
+     * get all users
+     *
+     * Get all users
+     */
+    public function getUsers()
+    {
+        $users = User::all();
+        return new AuthResource(true, 'Data retrieved successfully', $users);
+    }
 }

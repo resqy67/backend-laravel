@@ -26,10 +26,14 @@ Route::get('/error', function () {
 
 Route::get('/user', [AuthController::class, 'getUser'])->middleware(Authenticate::using('sanctum'));
 Route::post('/user/update-token-fcm', [AuthController::class, 'addTokenFcm'])->middleware(Authenticate::using('sanctum'));
+
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    // Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/users', [AuthController::class, 'getUsers']);
     // route book
     Route::get('books', [BookController::class, 'index']);
     Route::post('book/store', [BookController::class, 'store']);
