@@ -160,4 +160,34 @@ class AuthController extends Controller
         $users = User::latest()->simplePaginate($perPage, ['*'], 'page', $page);
         return new AuthResource(true, 'Data retrieved successfully', $users);
     }
+
+    /**
+     * Reset password User
+     *
+     * Reset password user by email user
+     */
+    public function resetPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors(),
+            ], 401);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return new AuthResource(false, 'Email not found', null);
+        }
+
+        $user->update([
+            'password' => bcrypt('password'),
+        ]);
+
+        return new AuthResource(true, 'Password reset successfully', null);
+    }
 }
