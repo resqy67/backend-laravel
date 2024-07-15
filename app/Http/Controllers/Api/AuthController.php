@@ -65,7 +65,7 @@ class AuthController extends Controller
             'nisn' => 'required|integer|unique:users',
             'class' => 'required|string',
             'description' => 'required|string',
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10480',
         ]);
 
         if ($validator->fails()) {
