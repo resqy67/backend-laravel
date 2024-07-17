@@ -42,8 +42,8 @@ class BookController extends Controller
             'isbn' => 'required|string',
             'year' => 'required|integer',
             'pages' => 'required|integer',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'filepdf' => 'required|mimes:pdf|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
+            'filepdf' => 'required|mimes:pdf|max:100480',
         ]);
 
         if ($validator->fails()) {
@@ -100,7 +100,7 @@ class BookController extends Controller
             'year' => 'required|integer',
             'pages' => 'required|integer',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10480',
-            'filepdf' => 'required|mimes:pdf|max:20480',
+            'filepdf' => 'required|mimes:pdf|max:104800',
         ]);
 
         if ($validator->fails()) {
