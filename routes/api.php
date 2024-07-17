@@ -34,20 +34,23 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/users', [AuthController::class, 'getUsers']);
+    Route::delete('/user/delete/{uuid}', [AuthController::class, 'deleteUser']);
+
     // route book
     Route::get('books', [BookController::class, 'index']);
     Route::post('book/store', [BookController::class, 'store']);
     Route::get('book/{uuid}', [BookController::class, 'show']);
     Route::put('book/update/{uuid}', [BookController::class, 'update']);
+    Route::delete('book/delete/{uuid}', [BookController::class, 'destroy']);
 
     // route category
     Route::get('categories', [CategoryController::class, 'index']);
     Route::post('category/store', [CategoryController::class, 'store']);
+    Route::delete('category/delete/{uuid}', [CategoryController::class, 'destroy']);
 
     // route book category
     Route::get('book-categories', [BookCategoryController::class, 'index']);
     Route::post('book-category/store', [BookCategoryController::class, 'store']);
-
 
     // route loan
     Route::get('loans', [LoanController::class, 'index']);

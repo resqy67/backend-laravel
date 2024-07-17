@@ -190,4 +190,19 @@ class AuthController extends Controller
 
         return new AuthResource(true, 'Password reset successfully', null);
     }
+
+    /**
+     * Delete user
+     *
+     * Delete user by id
+     */
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->delete();
+            return new AuthResource(true, 'User deleted successfully', null);
+        }
+        return new AuthResource(false, 'User not found', null);
+    }
 }

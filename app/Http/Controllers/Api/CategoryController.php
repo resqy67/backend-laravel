@@ -46,4 +46,20 @@ class CategoryController extends Controller
         $category = Category::create($request->all());
         return new DataResource(true, 'Category created successfully', $category);
     }
+
+    /**
+     * Delete
+     *
+     * Delete category
+     */
+
+    public function destroy($uuid)
+    {
+        $category = Category::where('uuid', $uuid)->first();
+        if ($category) {
+            $category->delete();
+            return new DataResource(true, 'Category deleted successfully', null);
+        }
+        return new DataResource(false, 'Category not found', null);
+    }
 }

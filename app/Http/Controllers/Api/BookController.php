@@ -128,4 +128,17 @@ class BookController extends Controller
 
         return new DataResource('success', 'Data updated successfully', $book);
     }
+
+    /**
+     * Destroy
+     *
+     * Delete book by uuid
+     *
+     */
+    public function destroy($uuid)
+    {
+        $book = Book::where('uuid', $uuid)->first();
+        $book->delete();
+        return new DataResource('success', 'Data deleted successfully', null);
+    }
 }
