@@ -32,7 +32,7 @@ class LoanHistoryController extends Controller
         $user = $request->user();
 
         if (!$user) {
-            return new DataResource('error', 'User not authenticated', null);
+            return (new DataResource('error', 'User not found', null))->response()->setStatusCode(404);
         }
 
         // Get loans by authenticated user's ID

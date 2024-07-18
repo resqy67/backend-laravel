@@ -203,6 +203,6 @@ class AuthController extends Controller
             $user->delete();
             return new AuthResource(true, 'User deleted successfully', null);
         }
-        return new AuthResource(false, 'User not found', null);
+        return (new AuthResource(false, 'User not found', null))->response()->setStatusCode(404);
     }
 }

@@ -40,11 +40,12 @@ class CategoryController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new DataResource(false, $validator->errors(), null);
+            // return new DataResource(false, $validator->errors(), null);
+            return (new DataResource(false, 'Data not valid', $validator->errors()))->response()->setStatusCode(422);
         }
 
         $category = Category::create($request->all());
-        return new DataResource(true, 'Category created successfully', $category);
+        return (new DataResource(true, 'Category created successfully', $category))->response()->setStatusCode(201);
     }
 
     /**
@@ -60,6 +61,6 @@ class CategoryController extends Controller
             $category->delete();
             return new DataResource(true, 'Category deleted successfully', null);
         }
-        return new DataResource(false, 'Category not found', null);
+        return (new DataResource(false, 'Category not found', null))->response()->setStatusCode(404);
     }
 }

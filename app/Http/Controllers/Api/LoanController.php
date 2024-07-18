@@ -45,12 +45,12 @@ class LoanController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new DataResource('error', $validator->errors(), null);
+            return (new DataResource('error', 'Data not valid', $validator->errors()))->response()->setStatusCode(422);
         }
 
         $book = Book::where('uuid', $request->book_uuid)->first();
         if (!$book->availability) {
-            return new DataResource('error', 'Book is not available', null);
+            return (new DataResource('error', 'Book is not available', null))->response()->setStatusCode(422);
         }
 
         // Set loan_date to current date
@@ -86,7 +86,7 @@ class LoanController extends Controller
         $user = $request->user();
 
         if (!$user) {
-            return new DataResource('error', 'User not authenticated', null);
+            return (new DataResource('error', 'User not found', null))->response()->setStatusCode(404);
         }
 
         // Get loans by authenticated user's ID
@@ -111,7 +111,7 @@ class LoanController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new DataResource('error', $validator->errors(), null);
+            return (new DataResource('error', 'Data not valid', $validator->errors()))->response()->setStatusCode(422);
         }
 
         $loan = Loan::where('uuid', $request->loan_uuid)->first();
@@ -127,7 +127,7 @@ class LoanController extends Controller
 
             return new DataResource('success', 'Book returned successfully', null);
         } else {
-            return new DataResource('error', 'Loan not found', null);
+            return (new DataResource('error', 'Loan not found', null))->response()->setStatusCode(404);
         }
     }
 
@@ -140,6 +140,10 @@ class LoanController extends Controller
     {
         $book = Book::where('uuid', $book_uuid)->first();
         $loan = Loan::where('book_uuid', $book_uuid)->where('user_id', $user_id)->first();
+
+        if (!$book && !$loan) {
+            return (new DataResource('error', 'Book not found', null))->response()->setStatusCode(404);
+        }
 
         if ($book->availability) {
             return new DataResource('success', 'Book is available', null);
