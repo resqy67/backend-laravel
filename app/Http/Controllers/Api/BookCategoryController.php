@@ -48,4 +48,19 @@ class BookCategoryController extends Controller
         ]);
         return new DataResource(true, 'Book category created successfully', $bookCategory);
     }
+
+    /**
+     * delete book category
+     *
+     * delete book category by uuid
+     */
+    public function destroy($uuid)
+    {
+        $bookCategory = BookCategory::where('uuid', $uuid)->first();
+        if ($bookCategory) {
+            $bookCategory->delete();
+            return new DataResource(true, 'Book category deleted successfully', null);
+        }
+        return new DataResource(false, 'Book category not found', null);
+    }
 }

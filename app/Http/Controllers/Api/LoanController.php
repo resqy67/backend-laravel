@@ -10,7 +10,9 @@ use App\Models\Loan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 /**
  * @group Loan
@@ -116,15 +118,14 @@ class LoanController extends Controller
 
         $loan = Loan::where('uuid', $request->loan_uuid)->first();
         if ($loan) {
+            $this->sendNotification($loan);
             $loan->delete(); // Menghapus record pinjaman setelah buku dikembalikan
-
             // Opsional: Update status buku menjadi tersedia
             $book = Book::where('uuid', $loan->book_uuid)->first();
             if ($book) {
                 $book->availability = true;
                 $book->save();
             }
-
             return new DataResource('success', 'Book returned successfully', null);
         } else {
             return (new DataResource('error', 'Loan not found', null))->response()->setStatusCode(404);
@@ -151,6 +152,39 @@ class LoanController extends Controller
             return new DataResource('info', 'Book is borrowed by you', null);
         } else {
             return new DataResource('error', 'Book is borrowed by another user', null);
+        }
+    }
+
+
+    /**
+     * Send Notification
+     *
+     * Send notification to user
+     */
+    public function sendNotification($loan)
+    {
+        $messaging = Firebase::messaging();
+        $user = $loan->user;
+        if ($user->token_fcm) {
+            // Log::info("Sending FCM notification to user {$user->id} with token {$user->token_fcm}");
+            try {
+                $message = CloudMessage::withTarget('token', $user->token_fcm)
+                    ->withNotification([
+                        'title' => 'Book Returned',
+                        'body' => 'Your book has been returned successfully'
+                    ]);
+                $messaging->send($message);
+            } catch (\Kreait\Firebase\Exception\MessagingException $e) {
+                // Handle exception
+                Log::error("FCM token for user {$user->id} is invalid: {$e->getMessage()}");
+                $user->token_fcm = null;
+                $user->save();
+            } catch (\Kreait\Firebase\Exception\FirebaseException $e) {
+                // Handle exception
+                Log::error("An error occurred while sending FCM notification to user {$user->id}: {$e->getMessage()}");
+            }
+        } else {
+            Log::info("FCM token for user {$user->id} is not set");
         }
     }
 }
