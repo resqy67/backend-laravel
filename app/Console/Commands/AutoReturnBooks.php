@@ -40,8 +40,8 @@ class AutoReturnBooks extends Command
 
         foreach ($loans as $loan) {
             Log::info("check token fcm for user {$loan->user->id}, token: {$loan->user->token_fcm}");
+            // send notification to user
             $this->sendNotification($loan);
-
             $loan->delete();
 
             $book = Book::where('uuid', $loan->book_uuid)->first();
@@ -55,32 +55,25 @@ class AutoReturnBooks extends Command
         $this->info('Books returned successfully. Total books returned: ' . $returnCount . ' books. ' . $today);
     }
 
-    public function sendNotification($loan)
+    /**
+     * Send notification to user
+     */
+    public function sendNotification($loan): void
     {
         $messaging = Firebase::messaging();
         $user = $loan->user;
-
-        // Check if the user has an FCM token set
-        if (!$user->token_fcm) {
-            Log::info("FCM token for user {$user->id} is not set.");
-            return; // Exit the function if no FCM token is set
-        }
-
-        Log::info("Sending FCM notification to user {$user->id} with token {$user->token_fcm}");
-
-        try {
-            $message = CloudMessage::withTarget('token', $user->token_fcm)
-                ->withNotification([
-                    'title' => 'Book Returned',
-                    'body' => 'Your book has been returned successfully'
-                ]);
-            $messaging->send($message);
-        } catch (\Kreait\Firebase\Exception\MessagingException $e) {
-            // Log the exception message
-            Log::error("FCM token for user {$user->id} is invalid: " . $e->getMessage());
-        } catch (\Throwable $e) {
-            // Catch any other exceptions and log them
-            Log::error("An error occurred while sending FCM notification to user {$user->id}: " . $e->getMessage());
+        if ($user->token_fcm) {
+            Log::info("Sending FCM notification to user {$user->id} with token {$user->token_fcm}");
+            try {
+                $message = CloudMessage::withTarget('token', $user->token_fcm)
+                    ->withNotification([
+                        'title' => 'Book Returned',
+                        'body' => 'Your book has been returned successfully'
+                    ]);
+                $messaging->send($message);
+            } catch (\Kreait\Firebase\Exception\MessagingException $e) {
+                Log::error("Failed to send FCM notification to user {$user->id} with token {$user->token_fcm}");
+            }
         }
     }
 }
