@@ -39,6 +39,7 @@ class AutoReturnBooks extends Command
         $returnCount = 0;
 
         foreach ($loans as $loan) {
+            Log::info("check token fcm for user {$loan->user->id}, token: {$loan->user->token_fcm}");
             $this->sendNotification($loan);
 
             $loan->delete();

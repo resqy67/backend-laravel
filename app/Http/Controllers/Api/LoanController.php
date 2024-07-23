@@ -166,7 +166,7 @@ class LoanController extends Controller
         $messaging = Firebase::messaging();
         $user = $loan->user;
         if ($user->token_fcm) {
-            // Log::info("Sending FCM notification to user {$user->id} with token {$user->token_fcm}");
+            Log::info("Sending FCM notification to user {$user->id} with token {$user->token_fcm}");
             try {
                 $message = CloudMessage::withTarget('token', $user->token_fcm)
                     ->withNotification([
