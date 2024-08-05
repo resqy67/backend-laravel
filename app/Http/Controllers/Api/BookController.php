@@ -47,7 +47,8 @@ class BookController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new DataResource('error', $validator->errors(), null);
+            return (new DataResource('error', 'data tidak valid', $validator->errors()))->response()->setStatusCode(422);
+            // return new DataResource('error', $validator->errors(), $validator->errors());
         }
 
         $image = $request->file('image');
@@ -104,7 +105,8 @@ class BookController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return new DataResource('error', $validator->errors(), null);
+            return (new DataResource('error', 'data tidak valid', $validator->errors()))->response()->setStatusCode(422);
+            // return new DataResource('error', $validator->errors(), null);
         }
 
         $book = Book::where('uuid', $uuid)->first();
@@ -138,7 +140,12 @@ class BookController extends Controller
     public function destroy($uuid)
     {
         $book = Book::where('uuid', $uuid)->first();
+
+        if (!$book) {
+            return (new DataResource('error', 'Invalid UUID', ''))->response()->setStatusCode(404);
+        }
+
         $book->delete();
-        return new DataResource('success', 'Data deleted successfully', null);
+        return new DataResource('success', 'Data deleted successfully', $book);
     }
 }
