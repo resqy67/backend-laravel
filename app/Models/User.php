@@ -47,6 +47,7 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn ($avatar) => url('/storage/users/avatars/' . $avatar),
+            // get: fn ($avatar) => $avatar ? url('/storage/users/avatars/' . $avatar) : null,
         );
     }
 

@@ -65,7 +65,7 @@ class AuthController extends Controller
             'nisn' => 'required|integer|unique:users',
             'class' => 'required|string',
             'description' => 'required|string',
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10480',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10480',
         ]);
 
         if ($validator->fails()) {
@@ -75,8 +75,17 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $avatar = $request->file('avatar');
-        $avatar->storeAs('public/users/avatars', $avatar->hashName());
+        // $avatar = $request->file('avatar');
+        // $avatar->storeAs('public/users/avatars', $avatar->hashName());
+        $avatarPath = null;
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            // $avatarPath = $avatar->storeAs($avatar->hashName());
+            $avatar->storeAs('public/users/avatars', $avatar->hashName());
+            $avatarPath = $avatar->hashName();
+        }
+
+
 
         User::create([
             'name' => $request->name,
@@ -85,7 +94,7 @@ class AuthController extends Controller
             'nisn' => $request->nisn,
             'class' => $request->class,
             'description' => $request->description,
-            'avatar' => $avatar->hashName(),
+            'avatar' => $avatarPath,
         ]);
 
         return new AuthResource(true, 'Register Success', null);
