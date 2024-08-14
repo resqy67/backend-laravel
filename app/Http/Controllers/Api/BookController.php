@@ -161,7 +161,7 @@ class BookController extends Controller
     {
         // $perPage = $request->input('per_page', 10);
         // $page = $request->input('page', 1);
-        $keyword = $request->input('keyword');
+        $keyword = $request->keyword;
 
         $query = Book::query();
 
