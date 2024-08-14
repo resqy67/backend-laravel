@@ -152,6 +152,9 @@ class LoanController extends Controller
         }
 
         if ($book->availability) {
+            if ($loan) {
+                return new DataResource('info', 'Book is borrowed by you', null);
+            }
             return new DataResource('success', 'Book is available', null);
         } else if ($loan) {
             return new DataResource('info', 'Book is borrowed by you', null);
