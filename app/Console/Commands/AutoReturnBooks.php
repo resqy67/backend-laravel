@@ -73,8 +73,16 @@ class AutoReturnBooks extends Command
                     ]);
                 $messaging->send($message);
             } catch (\Kreait\Firebase\Exception\MessagingException $e) {
-                Log::error("Failed to send FCM notification to user {$user->id} with token {$user->token_fcm}");
+                // Handle exception
+                Log::error("FCM token for user {$user->id} is invalid: {$e->getMessage()}");
+                $user->token_fcm = null;
+                $user->save();
+            } catch (\Kreait\Firebase\Exception\FirebaseException $e) {
+                // Handle exception
+                Log::error("An error occurred while sending FCM notification to user {$user->id}: {$e->getMessage()}");
             }
+        } else {
+            Log::info("FCM token for user {$user->id} is not set");
         }
     }
 }

@@ -44,6 +44,7 @@ class BookController extends Controller
             'pages' => 'required|integer',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
             'filepdf' => 'required|mimes:pdf|max:100480',
+            'availability' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -65,6 +66,7 @@ class BookController extends Controller
             'isbn' => $request->isbn,
             'year' => $request->year,
             'pages' => $request->pages,
+            'availability' => $request->availability,
             'image' => $image->hashName(),
             'filepdf' => $filepdf->hashName(),
         ]);

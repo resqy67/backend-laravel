@@ -65,7 +65,7 @@ class AuthController extends Controller
             'nisn' => 'required|integer|unique:users',
             'class' => 'required|string',
             'description' => 'required|string',
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10480',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10480',
         ]);
 
         if ($validator->fails()) {
@@ -75,8 +75,19 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $avatar = $request->file('avatar');
-        $avatar->storeAs('public/users/avatars', $avatar->hashName());
+        $defaultAvatar = 'public/dummy/user-profile.jpg';
+
+        if ($request->hasFile('avatar')) {
+            $avatarFile = $request->file('avatar');
+            $avatarPath = $avatarFile->storeAs('public/users/avatars', $avatarFile->hashName());
+            $avatarName = $avatarFile->hashName(); // Get the hashed name of the uploaded file
+        } else {
+            $avatarPath = $defaultAvatar;
+            $avatarName = basename($defaultAvatar); // Use the default avatar's basename as the avatar name
+        }
+
+        // $avatar = $request->file('avatar');
+        // $avatar->storeAs('public/users/avatars', $avatar->hashName());
 
         User::create([
             'name' => $request->name,
@@ -85,7 +96,7 @@ class AuthController extends Controller
             'nisn' => $request->nisn,
             'class' => $request->class,
             'description' => $request->description,
-            'avatar' => $avatar->hashName(),
+            'avatar' => $avatarName,
         ]);
 
         return new AuthResource(true, 'Register Success', null);

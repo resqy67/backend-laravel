@@ -36,6 +36,7 @@ class Book extends Model
         'image',
         'filepdf',
         'loan_count',
+        'availability',
     ];
 
     protected static function booted()
@@ -48,14 +49,14 @@ class Book extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn ($image) => url('/storage/books/images/' . $image),
+            get: fn($image) => url('/storage/books/images/' . $image),
         );
     }
 
     protected function filepdf(): Attribute
     {
         return Attribute::make(
-            get: fn ($filepdf) => url('/storage/books/pdfs/' . $filepdf),
+            get: fn($filepdf) => url('/storage/books/pdfs/' . $filepdf),
         );
     }
 

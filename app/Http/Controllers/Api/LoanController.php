@@ -68,9 +68,13 @@ class LoanController extends Controller
             'return_date' => $returnDate,
         ]);
 
-        $book->availability = false;
-        $book->incrementLoanCount();
-        $book->save();
+        // $book->availability = false;
+        // reduce availability after book borrowed
+        if ($book->availability > 0) {
+            $book->availability -= 1;
+            $book->incrementLoanCount();
+            $book->save();
+        }
 
         event(new LoanCreated($loan));
 
@@ -123,7 +127,8 @@ class LoanController extends Controller
             // Opsional: Update status buku menjadi tersedia
             $book = Book::where('uuid', $loan->book_uuid)->first();
             if ($book) {
-                $book->availability = true;
+                // add availability after book returned
+                $book->availability += 1;
                 $book->save();
             }
             return new DataResource('success', 'Book returned successfully', null);
