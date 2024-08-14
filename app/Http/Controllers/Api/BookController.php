@@ -150,4 +150,32 @@ class BookController extends Controller
         $book->delete();
         return new DataResource('success', 'Data deleted successfully', $book);
     }
+
+    /**
+     * Search
+     *
+     * Search book by keyword
+     *
+     */
+    public function search(Request $request)
+    {
+        // $perPage = $request->input('per_page', 10);
+        // $page = $request->input('page', 1);
+        $keyword = $request->input('keyword');
+
+        $query = Book::query();
+
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', '%' . $keyword . '%')
+                    ->orWhere('author', 'like', '%' . $keyword . '%')
+                    ->orWhere('publisher', 'like', '%' . $keyword . '%')
+                    ->orWhereHas('categories', function ($q) use ($keyword) {
+                        $q->where('name', 'like', '%' . $keyword . '%');
+                    });
+            });
+        }
+        $books = $query->get();
+        return new DataResource('success', 'Data retrieved successfully', $books);
+    }
 }

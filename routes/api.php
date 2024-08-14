@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('book/{uuid}', [BookController::class, 'show']);
     Route::put('book/update/{uuid}', [BookController::class, 'update']);
     Route::delete('book/delete/{uuid}', [BookController::class, 'destroy']);
+    Route::get('book/search/{keyword}', [BookController::class, 'search']);
 
     // route category
     Route::get('categories', [CategoryController::class, 'index']);
