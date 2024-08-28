@@ -14,6 +14,8 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            \EightyNine\ExcelImport\ExcelImportAction::make()
+                ->use(\App\Imports\UsersImport::class),
         ];
     }
 }
