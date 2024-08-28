@@ -15,10 +15,10 @@ class UserSessions extends BaseWidget
     protected static ?string $heading = 'Active Users';
     public function table(Table $table): Table
     {
+        // $query = $this->getUserSessionsQuery()->get();
+        // dd($query); // This will dump the query result to check the data
         return $table
-            ->query(
-                $this->getUserSessionsQuery()
-            )
+            ->query($this->getUserSessionsQuery())
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
@@ -26,23 +26,38 @@ class UserSessions extends BaseWidget
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('last_activity')
+                Tables\Columns\TextColumn::make('updated_at')
                     ->label('Last Activity')
-                    ->formatStateUsing(fn($state) => Carbon::createFromTimestamp($state)->format('Y-m-d H:i:s')),
-                // ->numeric(),
-                // ->dateTime('Y-m-d H:i:s'),
+                    ->formatStateUsing(function ($state) {
+                        $lastActivity = Carbon::parse($state);
+                        $now = Carbon::now();
+                        $diffInMinutes = $lastActivity->diffInMinutes($now);
+                        if ($diffInMinutes <= 5) {
+                            return 'Baru Saja Login (' . $lastActivity->diffForHumans() . ')';
+                        } else {
+                            return $lastActivity->format('Y-m-d H:i:s');
+                        }
+                    }),
             ]);
     }
 
     protected function getUserSessionsQuery()
     {
         // Ambil user_id dari sesi yang aktif
-        $sessionUserIds = DB::table('sessions')
-            ->where('user_id', '!=', null) // Pastikan sesi memiliki user_id
-            ->where('last_activity', '>=', now()->subMinutes(config('session.lifetime'))->timestamp)
-            ->pluck('user_id');
+        // $sessionUserIds = DB::table('sessions')
+        //     ->where('user_id', '!=', null) // Pastikan sesi memiliki user_id
+        //     ->where('last_activity', '>=', now()->subMinutes(config('session.lifetime'))->timestamp)
+        //     ->pluck('user_id');
 
-        // Ambil pengguna berdasarkan user_id dari sesi
-        return User::whereIn('id', $sessionUserIds);
+        // // Ambil pengguna berdasarkan user_id dari sesi
+        // return User::whereIn('id', $sessionUserIds);
+
+        // Ambil data pengguna berdasarkan personal access tokens yang aktif
+        return User::query()
+            // ->join('personal_access_tokens', 'users.id', '=', 'personal_access_tokens.tokenable_id')
+            // ->select('users.*', 'personal_access_tokens.last_used_at');
+            ->join('personal_access_tokens', 'users.id', '=', 'personal_access_tokens.tokenable_id')
+            ->where('personal_access_tokens.tokenable_type', User::class) // Pastikan hanya mengambil token milik pengguna
+            ->select('users.*', 'personal_access_tokens.updated_at'); // Pastikan last_used_at diambil
     }
 }

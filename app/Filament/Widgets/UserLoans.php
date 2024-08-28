@@ -19,14 +19,17 @@ class UserLoans extends BaseWidget
                 Loan::where('user_id', Auth::id())->with('book')->latest()
             )
             ->columns([
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Nama Peminjam')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('book.title')
-                    ->label('Book Title')
+                    ->label('Judul Buku')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('loan_date')
-                    ->label('Loan Date')
+                    ->label('Tanggal Peminjaman')
                     ->date('Y-m-d'),
                 Tables\Columns\TextColumn::make('return_date')
-                    ->label('Return Date')
+                    ->label('Tanggal Pengembalian')
                     ->date('Y-m-d'),
             ]);
     }

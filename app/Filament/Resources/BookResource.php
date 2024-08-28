@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\BookCategory;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\ActionColumn;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,41 +36,50 @@ class BookResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
+                    ->label('Judul Buku')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
+                    ->label('Deskripsi Buku')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('author')
+                    ->label('Penulis')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('publisher')
+                    ->label('Penerbit')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('isbn')
+                    ->label('ISBN')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('year')
+                    ->label('Tahun Terbit')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('pages')
+                    ->label('Jumlah Halaman')
                     ->required()
                     ->numeric(),
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->directory('books/images'),
                 Forms\Components\FileUpload::make('filepdf')
+                    ->label('File PDF')
                     ->directory('books/pdfs'),
                 Forms\Components\TextInput::make('availability')
+                    ->label('Ketersediaan')
                     ->required(),
-                Forms\Components\TextInput::make('loan_count')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Select::make('categories')
-                    ->multiple()
-                    ->relationship('categories', 'name') // Assumes `name` is the category field
-                    ->preload(),
+                // Forms\Components\TextInput::make('loan_count')
+                //     ->required()
+                //     ->numeric()
+                //     ->default(0),
+                // Select::make('categories')
+                //     ->multiple()
+                //     ->relationship('categories', 'name') // Assumes `name` is the category field
+                //     ->preload(),
             ]);
     }
 
@@ -81,34 +91,51 @@ class BookResource extends Resource
                 //     ->label('UUID')
                 //     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Judul Buku')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('author')
+                    ->label('Penulis')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('publisher')
+                    ->label('Penerbit')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('isbn')
+                    ->label('ISBN')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('year')
-                    ->numeric()
+                    ->label('Tahun Terbit')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('pages')
-                    ->numeric()
+                    ->label('Jumlah Halaman')
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('image'),
-                // Tables\Columns\TextColumn::make('filepdf')
-                //     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime()
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Gambar'),
+                // Tables\Columns\TextColumn::make('categories')
+                //     ->label('Kategori')
+                //     ->relationship('categories', 'name')
+                //     ->preload(),
+                // Tables\Columns\TextColumn::make('categories.name')
+                //     ->label('Kategori')
                 //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
+                //     ->searchable(),
+                Tables\Columns\TextColumn::make('categories')
+                    ->label('Kategori')
+                    ->formatStateUsing(function ($record) {
+                        // Format categories as a list of colored pills
+                        return $record->categories->map(function ($category) {
+                            return sprintf(
+                                '<span class="inline-block px-3 py-1 text-xs font-medium text-black bg-blue-500 rounded-full">%s</span>',
+                                e($category->name)
+                            );
+                        })->implode(' ');
+                    })
+                    ->html(), // Allow HTML in the column
+
                 Tables\Columns\TextColumn::make('availability')
                     ->label('Ketersediaan')
                     ->numeric(),
                 Tables\Columns\TextColumn::make('loan_count')
+                    ->label('Jumlah Dipinjam')
                     ->numeric()
                     ->sortable(),
             ])

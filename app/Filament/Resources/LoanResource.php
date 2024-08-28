@@ -48,28 +48,33 @@ class LoanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('uuid')
-                    ->label('UUID')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                // Tables\Columns\TextColumn::make('uuid')
+                //     ->label('UUID')
+                //     ->searchable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('User')
+                    // ->numeric()
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('book_uuid')
+                Tables\Columns\TextColumn::make('book.title')
+                    ->label('Nama Buku')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('loan_date')
+                    ->label('Tanggal Pinjam')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('return_date')
+                    ->label('Tanggal Kembali')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('created_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('updated_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
