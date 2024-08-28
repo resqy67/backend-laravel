@@ -92,12 +92,15 @@ class BookResource extends Resource
                 //     ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Judul Buku')
+                    ->wrap()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('author')
                     ->label('Penulis')
+                    ->wrap()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('publisher')
                     ->label('Penerbit')
+                    ->wrap()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('isbn')
                     ->label('ISBN')
@@ -114,22 +117,22 @@ class BookResource extends Resource
                 //     ->label('Kategori')
                 //     ->relationship('categories', 'name')
                 //     ->preload(),
-                // Tables\Columns\TextColumn::make('categories.name')
-                //     ->label('Kategori')
-                //     ->sortable()
-                //     ->searchable(),
-                Tables\Columns\TextColumn::make('categories')
+                Tables\Columns\TextColumn::make('categories.name')
                     ->label('Kategori')
-                    ->formatStateUsing(function ($record) {
-                        // Format categories as a list of colored pills
-                        return $record->categories->map(function ($category) {
-                            return sprintf(
-                                '<span class="inline-block px-3 py-1 text-xs font-medium text-black bg-blue-500 rounded-full">%s</span>',
-                                e($category->name)
-                            );
-                        })->implode(' ');
-                    })
-                    ->html(), // Allow HTML in the column
+                    ->badge()
+                    ->searchable(),
+                // Tables\Columns\TextColumn::make('categories')
+                //     ->label('Kategori')
+                //     ->formatStateUsing(function ($record) {
+                //         // Format categories as a list of colored pills
+                //         return $record->categories->map(function ($category) {
+                //             return sprintf(
+                //                 '<span class="inline-block px-3 py-1 text-xs font-medium text-black bg-blue-500 rounded-full">%s</span>',
+                //                 e($category->name)
+                //             );
+                //         })->implode(' ');
+                //     })
+                //     ->html(), // Allow HTML in the column
 
                 Tables\Columns\TextColumn::make('availability')
                     ->label('Ketersediaan')

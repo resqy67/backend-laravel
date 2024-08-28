@@ -18,6 +18,8 @@ use Filament\Notifications\Notification;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 use Kreait\Firebase\Messaging\CloudMessage; // Add this line to import the missing class
 
+use function Livewire\wrap;
+
 class LoanResource extends Resource
 {
     protected static ?string $model = Loan::class;
@@ -53,11 +55,13 @@ class LoanResource extends Resource
                 //     ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('User')
+                    ->wrap()
                     // ->numeric()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('book.title')
                     ->label('Nama Buku')
+                    ->wrap()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('loan_date')
                     ->label('Tanggal Pinjam')

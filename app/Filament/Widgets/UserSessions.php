@@ -37,7 +37,7 @@ class UserSessions extends BaseWidget
                         } else {
                             return $lastActivity->format('Y-m-d H:i:s');
                         }
-                    }),
+                    })
             ]);
     }
 
