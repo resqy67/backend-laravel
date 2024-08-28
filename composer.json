@@ -8,6 +8,8 @@
         "php": "^8.2",
         "dedoc/scramble": "^0.10.13",
         "doctrine/dbal": "^4.0",
+        "filament/filament": "^3.2",
+        "flowframe/laravel-trend": "^0.2.0",
         "laravel-notification-channels/fcm": "^4.3",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
@@ -36,7 +38,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

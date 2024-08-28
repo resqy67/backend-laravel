@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class BookCategory extends Model
 {
@@ -15,14 +16,18 @@ class BookCategory extends Model
     public $incrementing = false;
     protected $primaryKey = 'uuid';
     public $timestamps = false;
-    // public static function boot()
-    // {
-    //     parent::boot();
-    //     // Auto generate UUID when creating data User
-    //     static::creating(function ($model) {
-    //         $model->id = Str::uuid();
-    //     });
-    // }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            Log::info('Creating event triggered for BookCategory');
+            if (empty($model->uuid)) {
+                $model->uuid = (string) Str::uuid(); // Generate UUID if not already set
+                Log::info('UUID generated: ' . $model->uuid);
+            }
+        });
+    }
 
 
     protected $fillable = [

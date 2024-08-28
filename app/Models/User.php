@@ -46,7 +46,8 @@ class User extends Authenticatable
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn ($avatar) => url('/storage/users/avatars/' . $avatar),
+            // get: fn ($avatar) => url('/storage/users/avatars/' . $avatar),
+            get: fn($avatar) => url('/storage/' . $avatar),
             // get: fn ($avatar) => $avatar ? url('/storage/users/avatars/' . $avatar) : null,
         );
     }

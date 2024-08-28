@@ -67,8 +67,8 @@ class BookController extends Controller
             'year' => $request->year,
             'pages' => $request->pages,
             'availability' => $request->availability,
-            'image' => $image->hashName(),
-            'filepdf' => $filepdf->hashName(),
+            'image' => 'books/images' . $image->hashName(),
+            'filepdf' => 'books/pdfs' . $filepdf->hashName(),
         ]);
 
         return new DataResource('success', 'Data stored successfully', $book);

@@ -49,14 +49,14 @@ class Book extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn($image) => url('/storage/books/images/' . $image),
+            get: fn($image) => url('/storage/' . $image),
         );
     }
 
     protected function filepdf(): Attribute
     {
         return Attribute::make(
-            get: fn($filepdf) => url('/storage/books/pdfs/' . $filepdf),
+            get: fn($filepdf) => url('/storage/' . $filepdf),
         );
     }
 

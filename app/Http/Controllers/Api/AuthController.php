@@ -94,7 +94,7 @@ class AuthController extends Controller
             'nisn' => $request->nisn,
             'class' => $request->class,
             'description' => $request->description,
-            'avatar' => $avatarPath,
+            'avatar' => 'users/avatars/' . $avatarPath,
         ]);
 
         return new AuthResource(true, 'Register Success', null);
