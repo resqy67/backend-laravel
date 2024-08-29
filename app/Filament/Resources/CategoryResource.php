@@ -40,6 +40,7 @@ class CategoryResource extends Resource
                 //     ->label('UUID')
                 //     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Kategori')
                     ->searchable(),
             ])
             ->filters([
@@ -47,6 +48,7 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
