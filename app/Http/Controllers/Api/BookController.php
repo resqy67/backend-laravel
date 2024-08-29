@@ -42,8 +42,8 @@ class BookController extends Controller
             'isbn' => 'required|string',
             'year' => 'required|integer',
             'pages' => 'required|integer',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10048',
-            'filepdf' => 'required|mimes:pdf|max:100480',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'filepdf' => 'required|mimes:pdf',
             'availability' => 'required|integer',
         ]);
 

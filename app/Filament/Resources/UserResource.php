@@ -64,6 +64,7 @@ class UserResource extends Resource
                         'XII DKV 1' => 'XII DKV 1',
                         'XII DKV 2' => 'XII DKV 2',
                         'XII AKL' => 'XII AKL',
+                        'Guru dan Tenaga Kependidikan' => 'Guru dan Tenaga Kependidikan',
                     ])
                     ->required(),
                 // Forms\Components\TextInput::make('class')
@@ -74,6 +75,7 @@ class UserResource extends Resource
                         'Seorang Siswa' => 'Seorang Siswa',
                         'Seorang Guru' => 'Seorang Guru',
                         'Seorang Karyawan' => 'Seorang Karyawan',
+                        'Seorang Tenaga Kependidikan' => 'Seorang Tenaga Kependidikan',
                     ])
                     ->required(),
                 // Forms\Components\TextInput::make('description')
