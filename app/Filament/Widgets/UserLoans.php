@@ -23,6 +23,7 @@ class UserLoans extends BaseWidget
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Nama Peminjam')
+                    ->wrap()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('book.title')
                     ->label('Judul Buku')
