@@ -26,6 +26,7 @@ class UserLoans extends BaseWidget
                     ->searchable(),
                 Tables\Columns\TextColumn::make('book.title')
                     ->label('Judul Buku')
+                    ->wrap()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('loan_date')
                     ->label('Tanggal Peminjaman')

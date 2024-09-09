@@ -5,9 +5,7 @@ namespace App\Filament\Widgets;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use App\Models\Book;
-use App\Models\Loan;
 use App\Models\LoanHistory;
-use App\Models\User;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
 
@@ -58,7 +56,7 @@ class Books extends ChartWidget
             'today' => 'Hari Ini',
             'week' => 'Minggu Ini',
             'month' => 'Bulan Ini',
-            // 'year' => 'Tahun Ini',
+            'year' => 'Tahun Ini',
         ];
     }
 
@@ -68,9 +66,7 @@ class Books extends ChartWidget
         $start = null;
         $end = null;
 
-        $filter = $this->filter;
-
-        switch ($filter) {
+        switch ($this->filter) {
             case 'today':
                 $start = Carbon::today();
                 $end = Carbon::today()->endOfDay();
@@ -80,13 +76,18 @@ class Books extends ChartWidget
                 $end = Carbon::now()->endOfWeek();
                 break;
             case 'month':
+                $start = Carbon::now()->startOfMonth();
+                $end = Carbon::now()->endOfMonth();
+                break;
+            case 'year':
                 $start = Carbon::now()->startOfYear();
                 $end = Carbon::now()->endOfYear();
                 break;
-                // case 'year':
-                //     $start = Carbon::now()->startOfYear();
-                //     $end = Carbon::now()->endOfYear();
-                //     break;
+            default:
+                // Default ke bulan ini jika filter tidak dikenali
+                $start = Carbon::now()->startOfMonth();
+                $end = Carbon::now()->endOfMonth();
+                break;
         }
 
         return [
@@ -113,13 +114,13 @@ class Books extends ChartWidget
                 $trendQuery->perDay();
                 break;
             case 'month':
-                $trendQuery->perMonth();
+                $trendQuery->perDay();
                 break;
             case 'year':
-                $trendQuery->perYear();
+                $trendQuery->perMonth();
                 break;
             default:
-                $trendQuery->perMonth(); // Default ke perMonth jika filter tidak dikenali
+                $trendQuery->perDay(); // Default ke perDay jika filter tidak dikenali
                 break;
         }
 
@@ -144,13 +145,13 @@ class Books extends ChartWidget
                 $trendQuery->perDay();
                 break;
             case 'month':
-                $trendQuery->perMonth();
+                $trendQuery->perDay();
                 break;
             case 'year':
-                $trendQuery->perYear();
+                $trendQuery->perMonth();
                 break;
             default:
-                $trendQuery->perMonth(); // Default ke perMonth jika filter tidak dikenali
+                $trendQuery->perDay(); // Default ke perDay jika filter tidak dikenali
                 break;
         }
 
