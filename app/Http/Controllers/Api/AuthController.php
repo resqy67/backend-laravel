@@ -27,7 +27,7 @@ class AuthController extends Controller
             /**
              * @example admin@mail.com
              */
-            'email' => 'required|string|email',
+            'email' => 'required|string',
             /**
              * @example password
              */
@@ -38,19 +38,19 @@ class AuthController extends Controller
             return new AuthResource(false, $validator->errors(), null);
         }
 
-        // $credentials = $this->credentials($request);
+        $credentials = $this->credentials($request);
 
-        // if (!auth()->attempt($credentials)) {
-        //     return new AuthResource(false, 'Unauthorized', null);
-        // }
-
-        if (!auth()->attempt($request->only('email', 'password'))) {
-            return response()->json(new AuthResource(false, 'Unauthorized', null), 401);
+        if (!auth()->attempt($credentials)) {
+            return new AuthResource(false, 'Unauthorized', null);
         }
 
-        $datauser = User::where('email', $request->email)->first();
+        // if (!auth()->attempt($request->only('email', 'password'))) {
+        //     return response()->json(new AuthResource(false, 'Unauthorized', null), 401);
+        // }
 
-        // $datauser = User::where('email', $request->login)->orWhere('nisn', $request->login)->first();
+        // $datauser = User::where('email', $request->email)->first();
+
+        $datauser = User::where('email', $request->email)->orWhere('nisn', $request->email)->first();
         $token = [
             'token' => $datauser->createToken('token')->plainTextToken,
         ];
@@ -59,7 +59,7 @@ class AuthController extends Controller
 
     protected function credentials(Request $request)
     {
-        $login = $request->input('login');
+        $login = $request->input('email');
 
         if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
             return [
