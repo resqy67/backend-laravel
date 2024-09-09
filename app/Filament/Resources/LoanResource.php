@@ -140,8 +140,8 @@ class LoanResource extends Resource
             try {
                 $message = CloudMessage::withTarget('token', $user->token_fcm)
                     ->withNotification([
-                        'title' => 'Book Returned',
-                        'body' => 'Your book has been returned successfully'
+                        'title' => 'Buku Telah Dikembalikan!',
+                        'body' => 'Buku telah berhasil dikembalikan. Ayo pinjam buku lainnya! 📚',
                     ]);
                 $messaging->send($message);
             } catch (\Kreait\Firebase\Exception\MessagingException $e) {
