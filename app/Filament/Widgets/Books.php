@@ -14,6 +14,10 @@ class Books extends ChartWidget
 
     public ?string $filter = 'month';
 
+    protected array|string|int $columnSpan = 2;
+
+    protected static ?string $maxHeight = '200px';
+
     protected function getData(): array
     {
         $data = $this->getTrendData();
