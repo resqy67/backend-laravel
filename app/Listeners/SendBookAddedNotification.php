@@ -36,8 +36,8 @@ class SendBookAddedNotification
                 try {
                     $message = CloudMessage::withTarget('token', $user->token_fcm)
                         ->withNotification([
-                            'title' => 'Book Added',
-                            'body' => 'A new book has been added. Check it out now! 📚'
+                            'title' => 'Buku Baru Saja Ditambahkan!',
+                            'body' => 'Buku baru telah ditambahkan. Cek sekarang! 📚 ',
                         ]);
                     $messaging->send($message);
                 } catch (\Kreait\Firebase\Exception\MessagingException $e) {
