@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\AuthResource;
 use App\Models\Loan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -26,7 +27,7 @@ class AuthController extends Controller
             /**
              * @example admin@mail.com
              */
-            'email' => 'required|string|email',
+            'login' => 'required|string',
             /**
              * @example password
              */
@@ -37,15 +38,41 @@ class AuthController extends Controller
             return new AuthResource(false, $validator->errors(), null);
         }
 
-        if (!auth()->attempt($request->only('email', 'password'))) {
-            return response()->json(new AuthResource(false, 'Unauthorized', null), 401);
+        $credentials = $this->credentials($request);
+
+        if (!auth()->attempt($credentials)) {
+            return new AuthResource(false, 'Unauthorized', null);
         }
 
-        $datauser = User::where('email', $request->email)->first();
+        // if (!auth()->attempt($request->only('email', 'password'))) {
+        //     return response()->json(new AuthResource(false, 'Unauthorized', null), 401);
+        // }
+
+        // $datauser = User::where('email', $request->email)->first();
+
+        $datauser = User::where('email', $request->login)->orWhere('nisn', $request->login)->first();
         $token = [
             'token' => $datauser->createToken('token')->plainTextToken,
         ];
         return new AuthResource(true, 'Login Success', $token);
+    }
+
+    protected function credentials(Request $request)
+    {
+        $login = $request->input('login');
+
+        if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+            return [
+                'email' => $login,
+                'password' => $request->input('password'),
+            ];
+        }
+
+        // Assumes NIS is used for login and stored as a column in the User model
+        return [
+            'nisn' => $login,
+            'password' => $request->input('password'),
+        ];
     }
 
     /**

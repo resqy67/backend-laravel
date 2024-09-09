@@ -16,12 +16,11 @@ class StatsOverview extends BaseWidget
         $totalBooks = Book::count();
         $totalLoan = LoanHistory::count();
         return [
-            Stat::make('Total Pengguna', $totalUsers)
+            Stat::make('Total Pengguna', $totalUsers,)
                 ->icon('heroicon-o-user-group')
                 ->description('Total pengguna yang terdaftar di sistem')
                 ->descriptionColor('success')
                 ->descriptionIcon('heroicon-o-chevron-up', 'before'),
-
             Stat::make('Total Buku Tersedia', $totalBooks)
                 ->icon('heroicon-o-book-open')
                 ->description('Total buku yang tersedia di perpustakaan')
