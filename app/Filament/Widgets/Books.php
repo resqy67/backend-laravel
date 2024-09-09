@@ -6,7 +6,8 @@ use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use App\Models\Book;
 use Filament\Widgets\ChartWidget;
-use Carbon\Carbon;
+// use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 class Books extends ChartWidget
 {
@@ -37,7 +38,7 @@ class Books extends ChartWidget
                     'fill' => true,
                 ],
             ],
-            'labels' => $data->map(fn(TrendValue $value) => $value->date), // Format label bulan dan tahun
+            'labels' => $data->map(fn(TrendValue $value) => $value->date),
         ];
     }
 
@@ -50,8 +51,8 @@ class Books extends ChartWidget
     {
         return [
             'today' => 'Hari Ini',
-            'week' => 'Minggu Lalu',
-            'month' => 'Bulan Lalu',
+            'week' => 'Minggu Ini',
+            'month' => 'Bulan Ini',
             'year' => 'Tahun Ini',
         ];
     }
@@ -59,28 +60,33 @@ class Books extends ChartWidget
     // Fungsi untuk menentukan rentang waktu berdasarkan filter
     private function getStartEndDates(): array
     {
-        switch ($this->filter) {
+        $start = null;
+        $end = null;
+
+        $filter = $this->filter;
+
+        switch ($filter) {
             case 'today':
-                return [
-                    'start' => now()->startOfDay(),
-                    'end' => now()->endOfDay(),
-                ];
+                $start = Carbon::today();
+                $end = Carbon::today()->endOfDay();
+                break;
             case 'week':
-                return [
-                    'start' => now()->subWeek()->startOfWeek(),
-                    'end' => now()->subWeek()->endOfWeek(),
-                ];
+                $start = Carbon::now()->startOfWeek();
+                $end = Carbon::now()->endOfWeek();
+                break;
             case 'month':
-                return [
-                    'start' => now()->subMonth()->startOfMonth(),
-                    'end' => now()->subMonth()->endOfMonth(),
-                ];
+                $start = Carbon::now()->startOfMonth();
+                $end = Carbon::now()->endOfMonth();
+                break;
             case 'year':
-            default:
-                return [
-                    'start' => now()->startOfYear(),
-                    'end' => now()->endOfYear(),
-                ];
+                $start = Carbon::now()->startOfYear();
+                $end = Carbon::now()->endOfYear();
+                break;
         }
+
+        return [
+            'start' => $start,
+            'end' => $end,
+        ];
     }
 }
