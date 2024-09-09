@@ -102,8 +102,8 @@ class BookController extends Controller
             'isbn' => 'required|string',
             'year' => 'required|integer',
             'pages' => 'required|integer',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10480',
-            'filepdf' => 'required|mimes:pdf|max:104800',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'filepdf' => 'required|mimes:pdf',
         ]);
 
         if ($validator->fails()) {
