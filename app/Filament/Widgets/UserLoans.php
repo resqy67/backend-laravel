@@ -16,7 +16,9 @@ class UserLoans extends BaseWidget
     {
         return $table
             ->query(
-                Loan::where('user_id', Auth::id())->with('book')->latest()
+                Loan:: // Ambil pinjaman berdasarkan user ID saat ini
+                    with(['book', 'user']) // Pastikan memuat relasi 'book' dan 'user'
+                    ->latest()
             )
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')

@@ -43,15 +43,6 @@ class UserSessions extends BaseWidget
 
     protected function getUserSessionsQuery()
     {
-        // Ambil user_id dari sesi yang aktif
-        // $sessionUserIds = DB::table('sessions')
-        //     ->where('user_id', '!=', null) // Pastikan sesi memiliki user_id
-        //     ->where('last_activity', '>=', now()->subMinutes(config('session.lifetime'))->timestamp)
-        //     ->pluck('user_id');
-
-        // // Ambil pengguna berdasarkan user_id dari sesi
-        // return User::whereIn('id', $sessionUserIds);
-
         // Ambil data pengguna berdasarkan personal access tokens yang aktif
         return User::query()
             // ->join('personal_access_tokens', 'users.id', '=', 'personal_access_tokens.tokenable_id')
