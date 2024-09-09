@@ -65,8 +65,8 @@ return [
     |
     */
 
-    // 'timezone' => env('APP_TIMEZONE', 'UTC'),
-    'timezone' => env('Asia/Makassar', 'GMT'),
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    // 'timezone' => env('App', 'UTC'),
 
     /*
     |--------------------------------------------------------------------------
