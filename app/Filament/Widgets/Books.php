@@ -6,27 +6,17 @@ use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use App\Models\Book;
 use Filament\Widgets\ChartWidget;
-// use Carbon\Carbon;
 use Illuminate\Support\Carbon;
 
 class Books extends ChartWidget
 {
     protected static ?string $heading = 'Buku Terbaru';
 
-    public ?string $filter = 'year';
+    public ?string $filter = 'month';
 
     protected function getData(): array
     {
-        // Ambil rentang waktu berdasarkan filter yang dipilih
-        $startEndDates = $this->getStartEndDates();
-
-        $data = Trend::model(Book::class)
-            ->between(
-                start: $startEndDates['start'],
-                end: $startEndDates['end'],
-            )
-            ->perMonth() // Sesuaikan dengan rentang waktu jika diperlukan
-            ->count();
+        $data = $this->getTrendData();
 
         return [
             'datasets' => [
@@ -38,7 +28,7 @@ class Books extends ChartWidget
                     'fill' => true,
                 ],
             ],
-            'labels' => $data->map(fn(TrendValue $value) => $value->date),
+            'labels' => $data->map(fn(TrendValue $value) => $value->date), // Format tanggal jika diperlukan
         ];
     }
 
@@ -53,7 +43,7 @@ class Books extends ChartWidget
             'today' => 'Hari Ini',
             'week' => 'Minggu Ini',
             'month' => 'Bulan Ini',
-            'year' => 'Tahun Ini',
+            // 'year' => 'Tahun Ini',
         ];
     }
 
@@ -75,18 +65,49 @@ class Books extends ChartWidget
                 $end = Carbon::now()->endOfWeek();
                 break;
             case 'month':
-                $start = Carbon::now()->startOfMonth();
-                $end = Carbon::now()->endOfMonth();
-                break;
-            case 'year':
                 $start = Carbon::now()->startOfYear();
                 $end = Carbon::now()->endOfYear();
                 break;
+                // case 'year':
+                //     $start = Carbon::now()->startOfYear();
+                //     $end = Carbon::now()->endOfYear();
+                //     break;
         }
 
         return [
             'start' => $start,
             'end' => $end,
         ];
+    }
+
+    private function getTrendData()
+    {
+        $startEndDates = $this->getStartEndDates();
+
+        $trendQuery = Trend::model(Book::class)
+            ->between(
+                start: $startEndDates['start'],
+                end: $startEndDates['end'],
+            );
+
+        switch ($this->filter) {
+            case 'today':
+                $trendQuery->perHour();
+                break;
+            case 'week':
+                $trendQuery->perDay();
+                break;
+            case 'month':
+                $trendQuery->perMonth();
+                break;
+            case 'year':
+                $trendQuery->perYear();
+                break;
+            default:
+                $trendQuery->perMonth(); // Default ke perMonth jika filter tidak dikenali
+                break;
+        }
+
+        return $trendQuery->count();
     }
 }
