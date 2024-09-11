@@ -24,6 +24,23 @@ Route::get('/error', function () {
     ]);
 })->name('login');
 
+Route::get('/download', function () {
+    $filePath = storage_path('app/public/file/LiteratureAirlangga.apk');
+    $fileName = 'LiteratureAirlangga.apk';
+    // dd($filePath);
+    if (file_exists($filePath)) {
+        return response()->download($filePath, $fileName, [
+            'Content-Type' => 'application/vnd.android.package-archive',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+        ]);
+    } else {
+        return response()->json([
+            'status' => 404,
+            'message' => 'File not found',
+        ]);
+    }
+});
+
 Route::get('/user', [AuthController::class, 'getUser'])->middleware(Authenticate::using('sanctum'));
 Route::post('/user/update-token-fcm', [AuthController::class, 'addTokenFcm'])->middleware(Authenticate::using('sanctum'));
 
