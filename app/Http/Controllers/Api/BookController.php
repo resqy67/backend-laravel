@@ -43,7 +43,7 @@ class BookController extends Controller
             'year' => 'required|integer',
             'pages' => 'required|integer',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-            'filepdf' => 'required|mimes:pdf',
+            'filepdf' => 'required|mimes:pdf|max:102400',
             'availability' => 'required|integer',
         ]);
 
