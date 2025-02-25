@@ -65,9 +65,12 @@ class BookResource extends Resource
                     ->numeric(),
                 Forms\Components\FileUpload::make('image')
                     ->image()
+                    ->required()
                     ->directory('books/images'),
                 Forms\Components\FileUpload::make('filepdf')
                     ->label('File PDF')
+                    ->required()
+                    ->maxSize('100M')
                     ->directory('books/pdfs'),
                 Forms\Components\TextInput::make('availability')
                     ->label('Ketersediaan')
