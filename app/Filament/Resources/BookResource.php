@@ -70,6 +70,7 @@ class BookResource extends Resource
                 Forms\Components\FileUpload::make('filepdf')
                     ->label('File PDF')
                     ->required()
+                    ->maxSize(49152)
                     ->directory('books/pdfs'),
                 Forms\Components\TextInput::make('availability')
                     ->label('Ketersediaan')
