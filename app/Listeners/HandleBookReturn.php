@@ -38,7 +38,7 @@ class HandleBookReturn
         $book->save();
 
         // Send notification to user
-        $this->sendNotification($loan);
+        // $this->sendNotification($loan);
     }
 
     /**
@@ -46,28 +46,28 @@ class HandleBookReturn
      */
     public function sendNotification($loan): void
     {
-        $messaging = Firebase::messaging();
-        $user = $loan->user;
-        if ($user->token_fcm) {
-            Log::info("Sending FCM notification to user {$user->id} with token {$user->token_fcm}");
-            try {
-                $message = CloudMessage::withTarget('token', $user->token_fcm)
-                    ->withNotification([
-                        'title' => 'Buku Telah Dikembalikan!',
-                        'body' => 'Buku telah berhasil dikembalikan. Ayo pinjam buku lainnya! 📚',
-                    ]);
-                $messaging->send($message);
-            } catch (\Kreait\Firebase\Exception\MessagingException $e) {
-                // Handle exception
-                Log::error("FCM token for user {$user->id} is invalid: {$e->getMessage()}");
-                $user->token_fcm = null;
-                $user->save();
-            } catch (\Kreait\Firebase\Exception\FirebaseException $e) {
-                // Handle exception
-                Log::error("An error occurred while sending FCM notification to user {$user->id}: {$e->getMessage()}");
-            }
-        } else {
-            Log::info("FCM token for user {$user->id} is not set");
-        }
+        // $messaging = Firebase::messaging();
+        // $user = $loan->user;
+        // if ($user->token_fcm) {
+        //     Log::info("Sending FCM notification to user {$user->id} with token {$user->token_fcm}");
+        //     try {
+        //         $message = CloudMessage::withTarget('token', $user->token_fcm)
+        //             ->withNotification([
+        //                 'title' => 'Buku Telah Dikembalikan!',
+        //                 'body' => 'Buku telah berhasil dikembalikan. Ayo pinjam buku lainnya! 📚',
+        //             ]);
+        //         $messaging->send($message);
+        //     } catch (\Kreait\Firebase\Exception\MessagingException $e) {
+        //         // Handle exception
+        //         Log::error("FCM token for user {$user->id} is invalid: {$e->getMessage()}");
+        //         $user->token_fcm = null;
+        //         $user->save();
+        //     } catch (\Kreait\Firebase\Exception\FirebaseException $e) {
+        //         // Handle exception
+        //         Log::error("An error occurred while sending FCM notification to user {$user->id}: {$e->getMessage()}");
+        //     }
+        // } else {
+        //     Log::info("FCM token for user {$user->id} is not set");
+        // }
     }
 }
