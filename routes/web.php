@@ -11,7 +11,7 @@ Route::get('/privacy', function() {
     return view('privacy');
 });
 
-Route::get('/terms-and-condition', function() {
+Route::get('/terms', function() {
     return view('terms-and-conditions');
 });
 
