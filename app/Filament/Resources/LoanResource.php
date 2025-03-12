@@ -100,7 +100,7 @@ class LoanResource extends Resource
                             $record->delete();
 
                             // Kirim notifikasi ke user
-                            self::sendNotification($record);
+                            // self::sendNotification($record);
 
                             return redirect()->back()->with('success', 'Book returned successfully');
                         } else {
