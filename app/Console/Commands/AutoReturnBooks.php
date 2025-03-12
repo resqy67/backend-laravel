@@ -32,7 +32,7 @@ class AutoReturnBooks extends Command
     public function handle()
     {
         // buat variabel today yang berisi tanggal dan waktu yang ditambahkan 8 jam dari waktu saat ini
-        $today = now()->addHours(8);
+        $today = now();
         // $today = now();
         $loans = Loan::where('return_date', '<=', $today)->get();
 
