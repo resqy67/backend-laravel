@@ -18,6 +18,7 @@ use Filament\Notifications\Notification;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 use Kreait\Firebase\Messaging\CloudMessage; // Add this line to import the missing class
 
+
 use function Livewire\wrap;
 
 class LoanResource extends Resource
@@ -101,6 +102,11 @@ class LoanResource extends Resource
 
                             // Kirim notifikasi ke user
                             // self::sendNotification($record);
+                            Notification::make()
+                                ->title('Success')
+                                ->body('Buku telah berhasil dikembalikan.')
+                                ->success()
+                                ->send();
 
                             return redirect()->back()->with('success', 'Book returned successfully');
                         } else {
